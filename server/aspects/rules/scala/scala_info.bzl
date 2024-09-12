@@ -50,7 +50,7 @@ def extract_scalatest_classpath(rule_attr):
 
 def extract_scala_info(target, ctx, output_groups, **kwargs):
     kind = ctx.rule.kind
-    if not kind.startswith("scala_") and not kind.startswith("thrift_"):
+    if not kind.startswith("scala_") and not kind.startswith("thrift_") and not kind.startswith("generic_scala_"):
         return None, None
 
     SCALA_TOOLCHAIN = "@io_bazel_rules_scala//scala:toolchain_type"
@@ -72,6 +72,13 @@ def extract_scala_info(target, ctx, output_groups, **kwargs):
     else:
         common_scalac_opts = []
     scala_info["scalac_opts"] = common_scalac_opts + getattr(ctx.rule.attr, "scalacopts", [])
+    # Fake scala compiler value
+    scala_info["compiler_classpath"] = struct(
+        is_external= True,
+        is_source= True,
+        relative_path= "scala-reflect-2.12.18.jar",
+        root_execution_path_fragment= "external/io_bazel_rules_scala_scala_reflect"
+    )
 
     scala_info["scalatest_classpath"] = extract_scalatest_classpath(rule_attr)
 

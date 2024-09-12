@@ -835,6 +835,9 @@ class BazelProjectMapper(
 
   private val workspaceTargetKinds =
     setOf(
+      "generic_scala_binary",
+      "generic_scala_test",
+      "generic_scala_worker",
       "java_library",
       "java_binary",
       "java_test",
@@ -844,6 +847,7 @@ class BazelProjectMapper(
       "scala_library",
       "scala_binary",
       "scala_test",
+      "scala_pb090",
       "rust_test",
       "rust_doc",
       "rust_doc_test",

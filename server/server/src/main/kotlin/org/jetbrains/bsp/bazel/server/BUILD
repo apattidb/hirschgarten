@@ -1,4 +1,4 @@
-load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_library")
+load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_binary", "kt_jvm_library")
 
 kt_jvm_library(
     name = "server",
@@ -27,5 +27,18 @@ kt_jvm_library(
         "@maven//:org_apache_logging_log4j_log4j_api",
         "@maven//:org_apache_logging_log4j_log4j_core",
         "@maven//:org_eclipse_lsp4j_org_eclipse_lsp4j_jsonrpc",
+    ],
+)
+
+java_binary(
+    name = "bazel-bsp",
+    main_class = "org.jetbrains.bsp.bazel.server.ServerInitializer",
+    visibility = ["//visibility:public"],
+    runtime_deps = [
+        ":server",
+        "@maven//:ch_epfl_scala_bsp4j",
+        "@maven//:org_apache_velocity_velocity_engine_core",
+        "@maven//:org_jetbrains_kotlinx_kotlinx_coroutines_core",
+        "@maven//:com_intellij_platform_kotlinx_coroutines_core_jvm",
     ],
 )
